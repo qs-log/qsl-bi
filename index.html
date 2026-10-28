@@ -43,14 +43,61 @@
     .client-section summary:focus-visible{outline:2px solid #2359a5;outline-offset:4px}
     .client-section details .cards{margin-top:8px}
     @media(max-width:650px){.section-title{font-size:23px}.portfolio-section{margin-bottom:36px}}
+
+/* Tema claro/escuro compartilhado entre as páginas */
+:root{color-scheme:light;--page-bg:#f1f5f9;--text-main:#0b1f40;--text-muted:#64748b;--surface:#ffffff;--border-color:#e2e8f0;--section-border:#dbe3ed;--link-hover:#2359a5;--play-bg:#0b1f40}
+html[data-theme="dark"]{color-scheme:dark;--page-bg:#101827;--text-main:#edf4ff;--text-muted:#afbed2;--surface:#1c2a3d;--border-color:#34465e;--section-border:#34465e;--link-hover:#85baff;--play-bg:#101827}
+html,body{background:var(--page-bg);color:var(--text-main)}
+body{transition:background-color .2s,color .2s}
+h1,.section-title,.client-section summary,.card a{color:var(--text-main)}
+.lead,.section-description,.intro p,.video-card p,footer{color:var(--text-muted)}
+.card,.video-card,.intro{background:var(--surface);border-color:var(--border-color)}
+.client-section{border-color:var(--section-border)}
+.card a:hover,.video-card h2 a:hover,.video-card h2 a:focus-visible{color:var(--link-hover)}
+.video-launch{background:var(--play-bg)}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:8px;padding:10px 12px;cursor:pointer;font:600 14px Arial,Helvetica,sans-serif;white-space:nowrap}
+.theme-toggle:hover,.theme-toggle:focus-visible{background:rgba(255,255,255,.22)}
+.theme-toggle:focus-visible{outline:2px solid white;outline-offset:3px}
+.theme-icon{font-size:17px;line-height:1}
+@media(max-width:650px){.theme-toggle{padding:9px 10px;font-size:13px;gap:5px}.theme-icon{font-size:16px}.site-nav{gap:3px}.site-nav a{padding:9px 7px}}
+
 </style>
+<script>
+(function(){
+  try{
+    var saved=localStorage.getItem('qsl-bi-theme');
+    var theme=(saved==='dark'||saved==='light')?saved:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    document.documentElement.setAttribute('data-theme',theme);
+  }catch(e){document.documentElement.setAttribute('data-theme','light');}
+})();
+</script>
 </head>
 <body>
-<header><div class="head-inner"><a class="brand" href="index.html" aria-label="QSL — Página inicial"><img class="brand-logo" src="https://i.imgur.com/A4wrwxE.png" alt="QSL — Tecnologia em Automação Logística"/></a><nav aria-label="Menu principal" class="site-nav"><a aria-current="page" href="index.html">Início</a><a href="videos.html">Vídeos</a></nav></div></header>
+<header><div class="head-inner"><a class="brand" href="index.html" aria-label="QSL — Página inicial"><img class="brand-logo" src="https://i.imgur.com/A4wrwxE.png" alt="QSL — Tecnologia em Automação Logística"/></a><nav aria-label="Menu principal" class="site-nav"><a aria-current="page" href="index.html">Início</a><a href="videos.html">Vídeos</a></nav><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Alternar tema"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Escuro</span></button></div></header>
 <main>
 <h1>Soluções em Business Intelligence e Logística 3D</h1>
 <p class="lead">Conheça nossos demonstrativos e projetos de visualização de dados.</p>
 <section aria-labelledby="demonstrativos" class="portfolio-section"><h2 class="section-title" id="demonstrativos">Demonstrativos</h2><p class="section-description">Exemplos de soluções e visualizações para explorar.</p><div class="cards"><article class="card"><a aria-label="Abrir QSLog - Armazém 3D" href="https://qs-log.github.io/qsl-bi/armazem.html" rel="noopener noreferrer" target="_blank"><img alt="QSLog - Armazém 3D" loading="lazy" src="https://qslbi.wordpress.com/wp-content/uploads/2026/10/armazem.jpg"/></a><h2><a href="https://qs-log.github.io/qsl-bi/armazem.html" rel="noopener noreferrer" target="_blank">QSLog - Armazém 3D →</a></h2></article><article class="card"><a aria-label="Abrir QSL Agro 3D" href="https://qs-log.github.io/qsl-bi/agro.html" rel="noopener noreferrer" target="_blank"><img alt="QSL Agro 3D" loading="lazy" src="https://qslbi.wordpress.com/wp-content/uploads/2026/10/agro.jpg"/></a><h2><a href="https://qs-log.github.io/qsl-bi/agro.html" rel="noopener noreferrer" target="_blank">QSL Agro 3D →</a></h2></article><article class="card"><a aria-label="Abrir Dashboard Demonstrativo" href="https://app.powerbi.com/view?r=eyJrIjoiNDdjOGY2YTEtOTMyMS00MTk5LWIxZmQtNjNhMzIwMjUyZGRkIiwidCI6IjViZWFjYWFlLTZiY2ItNDYyNS1hMzUzLWFiZGRhNTNmYzFkMSJ9" rel="noopener noreferrer" target="_blank"><img alt="Dashboard Demonstrativo" loading="lazy" src="https://qslbi.wordpress.com/wp-content/uploads/2026/10/painel-executivo-com-mapa-do-brasil-4.png"/></a><h2><a href="https://app.powerbi.com/view?r=eyJrIjoiNDdjOGY2YTEtOTMyMS00MTk5LWIxZmQtNjNhMzIwMjUyZGRkIiwidCI6IjViZWFjYWFlLTZiY2ItNDYyNS1hMzUzLWFiZGRhNTNmYzFkMSJ9" rel="noopener noreferrer" target="_blank">Dashboard Demonstrativo →</a></h2></article></div></section><section class="portfolio-section client-section"><details><summary>Projetos de clientes</summary><div class="cards"><article class="card"><a aria-label="Abrir Dashboard Saggezza" href="https://app.powerbi.com/view?r=eyJrIjoiMzQxMTAzYzgtNmRlZC00ZjAxLWIzNmMtMzg1Mzg0YTZkMTk3IiwidCI6IjViZWFjYWFlLTZiY2ItNDYyNS1hMzUzLWFiZGRhNTNmYzFkMSJ9" rel="noopener noreferrer" target="_blank"><img alt="Dashboard Saggezza" loading="lazy" src="https://qslbi.wordpress.com/wp-content/uploads/2026/10/armazem-moderno-com-empilhadeira-amarela-1.png"/></a><h2><a href="https://app.powerbi.com/view?r=eyJrIjoiMzQxMTAzYzgtNmRlZC00ZjAxLWIzNmMtMzg1Mzg0YTZkMTk3IiwidCI6IjViZWFjYWFlLTZiY2ItNDYyNS1hMzUzLWFiZGRhNTNmYzFkMSJ9" rel="noopener noreferrer" target="_blank">Dashboard Saggezza →</a></h2></article><article class="card"><a aria-label="Abrir Dashboard Cosma" href="https://app.powerbi.com/view?r=eyJrIjoiZjM2MGRlZDMtYTcxZC00MWJkLTgyNGUtMmZlM2MzMjA2MzIzIiwidCI6IjViZWFjYWFlLTZiY2ItNDYyNS1hMzUzLWFiZGRhNTNmYzFkMSJ9" rel="noopener noreferrer" target="_blank"><img alt="Dashboard Cosma" loading="lazy" src="https://qslbi.wordpress.com/wp-content/uploads/2026/10/linha-de-montagem-automotiva-com-robos-3.png"/></a><h2><a href="https://app.powerbi.com/view?r=eyJrIjoiZjM2MGRlZDMtYTcxZC00MWJkLTgyNGUtMmZlM2MzMjA2MzIzIiwidCI6IjViZWFjYWFlLTZiY2ItNDYyNS1hMzUzLWFiZGRhNTNmYzFkMSJ9" rel="noopener noreferrer" target="_blank">Dashboard Cosma →</a></h2></article></div></details></section></main>
 <footer>QSL • Business Intelligence</footer>
+<script>
+(function(){
+  var button=document.getElementById('theme-toggle');
+  if(!button)return;
+  function render(){
+    var dark=document.documentElement.getAttribute('data-theme')==='dark';
+    button.querySelector('.theme-icon').textContent=dark?'☀':'☾';
+    button.querySelector('.theme-label').textContent=dark?'Claro':'Escuro';
+    button.setAttribute('aria-label',dark?'Ativar tema claro':'Ativar tema escuro');
+    button.setAttribute('aria-pressed',String(dark));
+  }
+  button.addEventListener('click',function(){
+    var next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',next);
+    try{localStorage.setItem('qsl-bi-theme',next);}catch(e){}
+    render();
+  });
+  render();
+})();
+</script>
 </body>
 </html>
