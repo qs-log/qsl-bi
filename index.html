@@ -10,14 +10,15 @@
     :root{font-family:Arial,Helvetica,sans-serif;color:#0b1f40;background:#f1f5f9}
     *{box-sizing:border-box}
     body{margin:0}
-    header{background:white;padding:20px 24px}
+    header{background:#092b60;padding:14px 24px;box-shadow:0 3px 12px rgba(5,24,55,.15)}
     .head-inner{max-width:1120px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .brand{font-size:32px;margin:0;line-height:1.2}
+    .brand{display:flex;align-items:center;text-decoration:none}
+    .brand-logo{display:block;width:auto;height:77px;max-width:min(55vw,290px);object-fit:contain}
     .subtitle{font-size:16px;margin:0}
     .site-nav{display:flex;align-items:center;gap:12px}
-    .site-nav a{color:#0b1f40;text-decoration:none;font-weight:600;padding:10px 14px;border-radius:7px}
-    .site-nav a:hover,.site-nav a:focus-visible{background:#f1f5f9}
-    .site-nav a[aria-current="page"]{background:#e8eff8}
+    .site-nav a{color:#fff;text-decoration:none;font-weight:600;padding:10px 14px;border-radius:7px}
+    .site-nav a:hover,.site-nav a:focus-visible{background:rgba(255,255,255,.14)}
+    .site-nav a[aria-current="page"]{background:rgba(255,255,255,.20)}
     main{max-width:1168px;margin:auto;padding:48px 24px 24px}
     h1{text-align:center;font-size:42px;line-height:1.2;margin:0 0 18px}
     .lead{text-align:center;color:#64748b;font-size:20px;margin:0 0 48px}
@@ -28,7 +29,7 @@
     .card a{color:#0b1f40}
     .card a:hover{color:#2359a5}
     footer{text-align:center;color:#64748b;font-size:14px;padding:20px 24px 28px}
-    @media(max-width:650px){main{padding:36px 16px 16px}h1{font-size:30px}.lead{font-size:17px;margin-bottom:32px}.cards{grid-template-columns:1fr;gap:20px}.card h2{font-size:20px;padding:18px}.head-inner{gap:12px}.brand{font-size:27px}.site-nav{gap:2px}.site-nav a{padding:9px 10px;font-size:14px}}
+    @media(max-width:650px){main{padding:36px 16px 16px}h1{font-size:30px}.lead{font-size:17px;margin-bottom:32px}.cards{grid-template-columns:1fr;gap:20px}.card h2{font-size:20px;padding:18px}.head-inner{gap:12px}.brand-logo{height:57px;max-width:49vw}.site-nav{gap:2px}.site-nav a{padding:9px 10px;font-size:14px}}
   
     .portfolio-section{margin-bottom:48px}
     .section-title{font-size:27px;margin:0 0 8px;color:#0b1f40}
@@ -45,7 +46,7 @@
 </style>
 </head>
 <body>
-<header><div class="head-inner"><div><p class="brand"><strong>QSL</strong> BI</p><p class="subtitle">Central de Dashboards</p></div><nav aria-label="Menu principal" class="site-nav"><a aria-current="page" href="index.html">Início</a><a href="videos.html">Vídeos</a></nav></div></header>
+<header><div class="head-inner"><a class="brand" href="index.html" aria-label="QSL — Página inicial"><img class="brand-logo" src="logo-qsl.png" alt="QSL — Tecnologia em Automação Logística"/></a><nav aria-label="Menu principal" class="site-nav"><a aria-current="page" href="index.html">Início</a><a href="videos.html">Vídeos</a></nav></div></header>
 <main>
 <h1>Soluções em Business Intelligence e Logística 3D</h1>
 <p class="lead">Conheça nossos demonstrativos e projetos de visualização de dados.</p>
