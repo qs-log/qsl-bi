@@ -8,10 +8,37 @@
 <title>QSL BI - Vídeos da Empresa</title>
 <style>
 :root{font-family:Arial,Helvetica,sans-serif;color:#0b1f40;background:#f1f5f9}*{box-sizing:border-box}body{margin:0}header{background:#092b60;padding:14px 24px;box-shadow:0 3px 12px rgba(5,24,55,.15)}.head-inner{max-width:1120px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;text-decoration:none}.brand-logo{display:block;width:auto;height:77px;max-width:min(55vw,290px);object-fit:contain}.site-nav{display:flex;align-items:center;gap:12px}.site-nav a{color:#fff;text-decoration:none;font-weight:600;padding:10px 14px;border-radius:7px}.site-nav a:hover,.site-nav a:focus-visible{background:rgba(255,255,255,.14)}.site-nav a[aria-current="page"]{background:rgba(255,255,255,.20)}main{max-width:1168px;margin:auto;padding:48px 24px 60px}h1{text-align:center;font-size:42px;margin:0 0 16px}.lead{text-align:center;color:#64748b;font-size:20px;margin:0 0 44px}.intro{background:white;border:1px solid #e2e8f0;border-radius:12px;padding:30px;max-width:760px;margin:0 auto;text-align:center}.play{display:grid;place-items:center;margin:0 auto 20px;width:74px;height:74px;border-radius:50%;background:#e8f1f9;color:#125a86;font-size:30px;padding-left:5px}.intro h2{font-size:23px;margin:0 0 12px}.intro p{color:#64748b;line-height:1.65;margin:0}.video-section{margin:0 0 48px}.video-section h2.section-title{font-size:26px;margin:0 0 8px}.section-description{color:#64748b;margin:0 0 22px;line-height:1.5}.videos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.video-card{background:white;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}.video-card iframe,.video-card video{display:block;width:100%;aspect-ratio:16/9;border:0;background:#0b1f40}.video-launch{display:block;position:relative;width:100%;aspect-ratio:16/9;padding:0;border:0;background:#0b1f40;cursor:pointer;overflow:hidden;text-decoration:none}.video-launch img{width:100%;height:100%;object-fit:cover;display:block}.play-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#e62117;color:white;border-radius:12px;padding:10px 20px;font-size:26px}.video-launch:hover .play-icon,.video-launch:focus-visible .play-icon{background:#b91c1c}.video-card h2{margin:0;padding:16px 18px 18px;font-size:18px;line-height:1.35}.video-card h2 a{color:inherit;text-decoration:none}.video-card h2 a:hover,.video-card h2 a:focus-visible{color:#125a86;text-decoration:underline}.video-card p{margin:0;padding:0 20px 20px;color:#64748b;line-height:1.5}footer{text-align:center;color:#64748b;font-size:14px;padding:20px 24px 28px}@media(max-width:900px) and (min-width:651px){.videos{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.head-inner{gap:12px}.brand-logo{height:57px;max-width:49vw}.site-nav{gap:2px}.site-nav a{font-size:14px;padding:9px 10px}main{padding:36px 16px 40px}h1{font-size:30px}.lead{font-size:17px}.videos{grid-template-columns:1fr}.intro{padding:26px 18px}}
+
+/* Tema claro/escuro compartilhado entre as páginas */
+:root{color-scheme:light;--page-bg:#f1f5f9;--text-main:#0b1f40;--text-muted:#64748b;--surface:#ffffff;--border-color:#e2e8f0;--section-border:#dbe3ed;--link-hover:#2359a5;--play-bg:#0b1f40}
+html[data-theme="dark"]{color-scheme:dark;--page-bg:#101827;--text-main:#edf4ff;--text-muted:#afbed2;--surface:#1c2a3d;--border-color:#34465e;--section-border:#34465e;--link-hover:#85baff;--play-bg:#101827}
+html,body{background:var(--page-bg);color:var(--text-main)}
+body{transition:background-color .2s,color .2s}
+h1,.section-title,.client-section summary,.card a{color:var(--text-main)}
+.lead,.section-description,.intro p,.video-card p,footer{color:var(--text-muted)}
+.card,.video-card,.intro{background:var(--surface);border-color:var(--border-color)}
+.client-section{border-color:var(--section-border)}
+.card a:hover,.video-card h2 a:hover,.video-card h2 a:focus-visible{color:var(--link-hover)}
+.video-launch{background:var(--play-bg)}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:8px;padding:10px 12px;cursor:pointer;font:600 14px Arial,Helvetica,sans-serif;white-space:nowrap}
+.theme-toggle:hover,.theme-toggle:focus-visible{background:rgba(255,255,255,.22)}
+.theme-toggle:focus-visible{outline:2px solid white;outline-offset:3px}
+.theme-icon{font-size:17px;line-height:1}
+@media(max-width:650px){.theme-toggle{padding:9px 10px;font-size:13px;gap:5px}.theme-icon{font-size:16px}.site-nav{gap:3px}.site-nav a{padding:9px 7px}}
+
 </style>
+<script>
+(function(){
+  try{
+    var saved=localStorage.getItem('qsl-bi-theme');
+    var theme=(saved==='dark'||saved==='light')?saved:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    document.documentElement.setAttribute('data-theme',theme);
+  }catch(e){document.documentElement.setAttribute('data-theme','light');}
+})();
+</script>
 </head>
 <body>
-<header><div class="head-inner"><a class="brand" href="index.html" aria-label="QSL — Página inicial"><img class="brand-logo" src="https://i.imgur.com/A4wrwxE.png" alt="QSL — Tecnologia em Automação Logística"/></a><nav aria-label="Menu principal" class="site-nav"><a href="index.html">Início</a><a aria-current="page" href="videos.html">Vídeos</a></nav></div></header>
+<header><div class="head-inner"><a class="brand" href="index.html" aria-label="QSL — Página inicial"><img class="brand-logo" src="https://i.imgur.com/A4wrwxE.png" alt="QSL — Tecnologia em Automação Logística"/></a><nav aria-label="Menu principal" class="site-nav"><a href="index.html">Início</a><a aria-current="page" href="videos.html">Vídeos</a></nav><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Alternar tema"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Escuro</span></button></div></header>
 <main>
 <h1>Vídeos QSLog</h1>
 <p class="lead">Conheça nossas soluções, operações e tecnologias em vídeo.</p>
@@ -35,5 +62,25 @@
 </main>
 
 <footer>QSL • Business Intelligence</footer>
+<script>
+(function(){
+  var button=document.getElementById('theme-toggle');
+  if(!button)return;
+  function render(){
+    var dark=document.documentElement.getAttribute('data-theme')==='dark';
+    button.querySelector('.theme-icon').textContent=dark?'☀':'☾';
+    button.querySelector('.theme-label').textContent=dark?'Claro':'Escuro';
+    button.setAttribute('aria-label',dark?'Ativar tema claro':'Ativar tema escuro');
+    button.setAttribute('aria-pressed',String(dark));
+  }
+  button.addEventListener('click',function(){
+    var next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',next);
+    try{localStorage.setItem('qsl-bi-theme',next);}catch(e){}
+    render();
+  });
+  render();
+})();
+</script>
 </body>
 </html>
