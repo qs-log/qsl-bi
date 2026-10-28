@@ -61,6 +61,33 @@ h1,.section-title,.client-section summary,.card a{color:var(--text-main)}
 .theme-icon{font-size:17px;line-height:1}
 @media(max-width:650px){.theme-toggle{padding:9px 10px;font-size:13px;gap:5px}.theme-icon{font-size:16px}.site-nav{gap:3px}.site-nav a{padding:9px 7px}}
 
+
+/* Correção de largura e cabeçalho para celulares */
+html{width:100%;overflow-x:clip}
+body{width:100%;min-width:0;overflow-x:clip}
+main,.head-inner,.portfolio-section,.video-section,.cards,.videos{min-width:0}
+.card,.video-card{min-width:0}
+h1,.section-title,.card h2,.video-card h2{overflow-wrap:break-word}
+@media(max-width:650px){
+  header{padding:12px 14px}
+  .head-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:8px;row-gap:10px;width:100%;max-width:100%;align-items:center}
+  .brand{grid-column:1/-1;justify-self:center;max-width:100%;min-width:0}
+  .brand-logo{height:auto;width:auto;max-height:72px;max-width:min(78vw,290px)}
+  .site-nav{grid-column:1;grid-row:2;justify-self:start;min-width:0;gap:2px}
+  .site-nav a{font-size:14px;padding:9px 9px;white-space:nowrap}
+  .theme-toggle{grid-column:2;grid-row:2;justify-self:end;font-size:13px;padding:9px 10px;white-space:nowrap}
+  main{width:100%;max-width:100%;padding-left:16px;padding-right:16px}
+  .cards,.videos{grid-template-columns:minmax(0,1fr)}
+  h1{font-size:clamp(25px,7vw,30px);line-height:1.2}
+  .lead{font-size:16px}
+}
+@media(max-width:360px){
+  header{padding-left:9px;padding-right:9px}
+  .site-nav a{font-size:13px;padding:8px 6px}
+  .theme-toggle{font-size:12px;padding:8px 7px}
+  main{padding-left:12px;padding-right:12px}
+}
+
 </style>
 <script>
 (function(){
