@@ -72,7 +72,7 @@
 #photoBox h3{margin:0 44px 12px 0;text-align:left;font-size:16px}
 #photoClose{position:absolute;right:12px;top:10px;color:#172a42;background:#e8edf4;border:0;font-size:20px;padding:4px 11px}
 </style><style id="desktopCollapseStyles">
-#desktopCollapse{position:fixed;z-index:8;left:370px;top:25px;width:35px;height:43px;padding:0;border-radius:0 10px 10px 0;background:#17375c;color:#fff;border:1px solid #55779a;font-size:22px;box-shadow:3px 4px 12px #0003;transition:left .25s ease}
+#desktopCollapse{position:fixed;z-index:8;left:396px;top:50%;transform:translateY(-50%);width:40px;height:88px;padding:0;border-radius:0 14px 14px 0;background:#17375c;color:#fff;border:1px solid #55779a;font-size:30px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:3px 4px 12px #0003;transition:left .25s ease,transform .25s ease}
 body.desktop-panel-collapsed #ui{transform:translateX(calc(-100% - 20px));pointer-events:none}
 body.desktop-panel-collapsed #desktopCollapse{left:0}
 @media(min-width:741px){#ui{transition:transform .25s ease}}
@@ -184,8 +184,8 @@ const physical=new Map();for(const row of data.physical){if(!physical.has(row.ad
 function rackPos(a){const letter=a[0],num=Number(a.split('-')[1]);return {x:columns[letter],z:(num-minRow)*rowDepth-rackLength/2+rowDepth/2}}
 // Estruturas metálicas compartilhadas: cada módulo tem duas posições de pallets lado a lado.
 // A seleção continua individual por endereço e nível, inclusive quando o nicho está vazio.
-const rackSteel=material(0x25519a),rackCross=material(0xe3a23e),wood=material(0x9b7249),woodSide=material(0x795331);
-const cargoMaterials=[material(0xc7ad85),material(0xbca482),material(0xb8c3cb),material(0xa7b1b5)];
+const rackSteel=material(0x25519a),rackCross=material(0xe3a23e),wood=material(0xcaa476),woodSide=material(0xb88b5d);
+const cargoMaterials=[material(0xd2ae82)];
 const topY=maxLevel*1.85+.5;
 function palletModel(a,x,y,z,index){
   // Estrado com longarinas e três pés; carga com volumes em cima, sem bloco branco.
@@ -196,7 +196,7 @@ function palletModel(a,x,y,z,index){
   towerMesh(a,x,y+.69,z,1.65,.79,1.52,cargo);
   for(const dz of [-.76,.76])towerMesh(a,x,y+.69,z+dz,1.65,.79,.025,woodSide);
   // Faixas discretas de embalagem para dar leitura visual de pallet carregado.
-  for(const dx of [-.47,.47])towerMesh(a,x+dx,y+.69,z,.025,.8,1.55,material(0xd6d1bd));
+  for(const dx of [-.47,.47])towerMesh(a,x+dx,y+.69,z,.025,.8,1.55,material(0xbc9467));
 }
 const rackGroups=new Map();
 for(const a of allRackAddresses){const letter=a.split('-')[0];if(!rackGroups.has(letter))rackGroups.set(letter,[]);rackGroups.get(letter).push(a);layout.set(a,rackPos(a));}
@@ -226,6 +226,143 @@ for(const [letter,addresses] of rackGroups){
     }
   }
 }
+
+
+// Faixas institucionais Saggezza: reprodução visual baseada na fotografia do armazém.
+// Textos aqui são os trechos efetivamente legíveis da referência, sem alterar o estoque.
+// CanvasTexture mantém as frases nítidas de perto e economiza requisições externas.
+const bannerTextures = new Map();
+function makeSaggezzaBanner(kind,span=1) {
+  const textureKey=kind+':'+span;
+  if (bannerTextures.has(textureKey)) return bannerTextures.get(textureKey);
+  const canvas = document.createElement('canvas');
+  // A textura acompanha a largura real: evita letras esticadas nas faixas duplas.
+  canvas.width = 512*span; canvas.height = 2560;
+  const c = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pink = kind !== 'white';
+  const grad = c.createLinearGradient(0,0,W,H);
+  if (pink) { grad.addColorStop(0,'#d51e6c');grad.addColorStop(.60,'#f22b82');grad.addColorStop(1,'#dc176e'); }
+  else { grad.addColorStop(0,'#fffefc');grad.addColorStop(1,'#f5f4ef'); }
+  c.fillStyle=grad;c.fillRect(0,0,W,H);
+
+  // Filete lateral e desenho hexagonal presentes nas faixas reais.
+  c.strokeStyle=pink?'rgba(255,255,255,.40)':'rgba(219,35,115,.18)';
+  c.lineWidth=5;
+  c.strokeRect(13,13,W-26,H-26);
+  function hex(cx,cy,r){
+    c.beginPath();
+    for(let i=0;i<6;i++){
+      const t=Math.PI/3*i-Math.PI/6;
+      const xx=cx+r*Math.cos(t), yy=cy+r*Math.sin(t);
+      if(i===0)c.moveTo(xx,yy);else c.lineTo(xx,yy);
+    }
+    c.closePath();c.stroke();
+  }
+  c.lineWidth=8;
+  hex(95,158,48);hex(167,198,46);hex(120,259,43);hex(202,128,38);
+  c.lineWidth=3;
+  for(let i=0;i<8;i++){
+    const xx=38+i*60;
+    c.beginPath();c.moveTo(xx,H-210+(i%3)*26);c.lineTo(xx+36,H-164+(i%2)*22);c.lineTo(xx+64,H-180);c.stroke();
+  }
+  function centerLine(str,y,size=54,weight=700,fill){
+    c.font=`${weight} ${Math.round(size*(span===2?1.17:1))}px Arial, Helvetica, sans-serif`;
+    c.fillStyle=fill || (pink?'#fff':'#27354d');
+    c.textAlign='center';c.textBaseline='middle';
+    c.fillText(str,W/2,y,W-48);
+  }
+  if(kind==='message'){
+    centerLine('JUNTOS',720,66,800);
+    centerLine('CRESCEMOS',808,64,800);
+    centerLine('PENSE GRANDE,',1130,59,800);
+    centerLine('SEJA CRIATIVO',1218,59,800);
+    centerLine('ACREDITAMOS NA',1502,53,800);
+    centerLine('SUSTENTABILIDADE',1590,51,800);
+    centerLine('DE FORMA AMPLA',1680,55,800);
+  } else if(kind==='white'){
+    // Logo da própria página, já embutido em base64 no HTML, sem arquivos adicionais.
+    const logo=document.querySelector('.brand-sgz');
+    if(logo?.complete && logo.naturalWidth){
+      const ratio=logo.naturalWidth/logo.naturalHeight;
+      const w=Math.min(span===2?520:360,ratio*410),h=w/ratio;
+      c.drawImage(logo,(W-w)/2,380,w,h);
+    }else{
+      centerLine('SAGGEZZA',535,85,900,'#e91b77');
+    }
+    const lines=[
+      'CONECTANDO','MARCAS AOS','PONTOS DE VENDAS',
+      'COM','ALTA TECNOLOGIA','E INTELIGÊNCIA',
+      'REVOLUCIONANDO','O MERCADO DE',
+      'SUPRIMENTOS','INDIRETOS'
+    ];
+    lines.forEach((line,i)=>centerLine(line,960+i*114,58,750,'#273041'));
+  } else if(kind==='future'){
+    // Na foto esta faixa mostra as palavras em letras verticais.
+    function letters(str,x,startY,step){
+      c.font='800 82px Arial, Helvetica, sans-serif';
+      c.fillStyle='#fff';c.textAlign='center';c.textBaseline='middle';
+      let j=0;
+      for(const char of str) {
+        if(char===' '){j+=.45;continue}
+        c.fillText(char,x,startY+j*step);j++;
+      }
+    }
+    letters('CONECTANDO',W*.37,666,112);
+    letters('VAREJO E FUTURO',W*.67,590,105);
+  } else if(kind==='brand'){
+    c.save();c.font='800 76px Arial, Helvetica, sans-serif';
+    c.fillStyle='#fff';c.textAlign='center';c.textBaseline='middle';
+    let j=0;
+    for(const ch of 'SAGGEZZA')c.fillText(ch,W/2,745+j++*133);
+    c.restore();
+  }
+  const texture=new THREE.CanvasTexture(canvas);
+  texture.colorSpace=THREE.SRGBColorSpace;
+  texture.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+  bannerTextures.set(textureKey,texture);
+  return texture;
+}
+// Faixas no TESTEIRO FRONTAL (extremidade) das estruturas, como na foto real.
+// Os corredores seguem o eixo Z: posicionar em qualquer linha intermediária coloca as
+// faixas no MEIO dos pallets, o que não corresponde à instalação física.
+function addBanner(letter,kind,span=2,neighbor=null){
+  const addresses=rackGroups.get(letter)||[];
+  if(!addresses.length)return;
+  const firstRow=Math.min(...addresses.map(a=>Number(a.split('-')[1])));
+  const {z}=rackPos(`${letter}-${firstRow}`);
+  // Centralizar a faixa ENTRE as duas colunas que ela cobre;
+  // a faixa final SAGGEZZA continua ocupando somente a coluna A.
+  const x=neighbor!==null?(columns[letter]+columns[neighbor])/2:columns[letter];
+  const frontZ=z-rowDepth/2-.20; // Fora da primeira longarina, voltado para a entrada.
+  const w=neighbor!==null?Math.abs(columns[letter]-columns[neighbor])+2.26:2.28;
+  const h=Math.min(11.55,topY-1.25),y=topY-h/2-.22;
+  const bannerMap=makeSaggezzaBanner(kind,span);
+  const materialBanner=new THREE.MeshBasicMaterial({map:bannerMap,side:THREE.FrontSide});
+  // Uma face para a frente (Z negativo), outra para quem chega pelo lado oposto.
+  // Ambas têm texto no sentido correto, sem imagem espelhada.
+  for(const [rotation,offset] of [[Math.PI,-.025],[0,.025]]){
+    const face=new THREE.Mesh(new THREE.PlaneGeometry(w,h),materialBanner);
+    face.rotation.y=rotation;
+    face.position.set(x,y,frontZ+offset);
+    face.renderOrder=2;
+    scene.add(face); // Decoração, não entra no raycaster de seleção dos nichos.
+  }
+  const bannerBar=material(0x424c5e);
+  mesh(x,topY-.21,frontZ,w+.08,.08,.055,bannerBar);
+  for(const dx of [-w*.40,w*.40])mesh(x+dx,topY-.36,frontZ,.085,.28,.085,bannerBar);
+}
+// Ordem frontal como vista no mapa: mensagem rosa PRIMEIRA (I+H),
+// branca (G+F), rosa CONECTANDO (E+D), branca (C+B),
+// e SAGGEZZA rosa estreita ÚLTIMA (A), na ponta do armazém.
+// Quatro banners em duas colunas; o último, em uma só.
+[
+  ['I','message',2,'H'],
+  ['G','white',2,'F'],
+  ['E','future',2,'D'],
+  ['C','white',2,'B'],
+  ['A','brand',1]
+].forEach(args=>addBanner(...args));
 
 // Stages #Z: faixa longitudinal ao lado da Rua I, conforme mapa 2D.
 const stages=Array.from({length:9},(_,i)=>`#Z${19+i}`); // Nove posições físicas fixas, inclusive as vazias.
