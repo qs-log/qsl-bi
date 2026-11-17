@@ -376,7 +376,10 @@ for(const [c,a,b] of [[38,6,32],[42,6,31],[10,52,74],[25,80,115]]){
 }
 // Chamber partitions use light insulated panels, with an open top for easy inspection.
 function isDoor(c,r){return (r===36&&((c>=17&&c<=20)||(c>=39&&c<=42)))||(r===49&&c>=12&&c<=15)||(r===77&&c>=11&&c<=15)}
-const wallCells=DOC.walls.filter(([c,r])=>(r<=36||r>=49||(r>=37&&r<=44&&c===6))&&!isDoor(c,r));
+// A coluna c=6 (linhas 37..44) pertence ao corredor reto da ala superior.
+// Com a ala inferior inclinada, o antigo prolongamento desta parede atravessava
+// o inicio da camara 10. Mantemos apenas os fechamentos das camaras (r<=36 ou r>=49).
+const wallCells=DOC.walls.filter(([c,r])=>(r<=36||r>=49)&&!isDoor(c,r));
 const wallData=wallCells.map(([c,r])=>{const p=world(c,r);return {...p,h:r===3?5.5:(r===49||r===77?2.5:3.6)};});
 const wallBatch=wallData.map(p=>({x:p.x,y:p.h/2,z:p.z,w:p.sx*1.015,h:p.h,d:p.sz*1.015,rot:p.yaw}));
 const wallObject=addBoxBatch(sceneRoot,wallBatch,MAT.wall);
@@ -517,7 +520,7 @@ function auditLayout(){
    return `<div class="chamber-review-row"><div class="chamber-review-head"><span>Câmara ${ch}</span><span>${F.format(a.total)} células</span></div><div class="chamber-review-types">Porta-pallet: ${a.rack} · Drive-in: ${a.drive} · Blocado: ${a.block}</div></div>`;
   }).join('');
  }
- if(issues.length)console.warn('Friozem V24 · conferencia do layout:',issues);
+ if(issues.length)console.warn('Friozem V27 · conferencia do layout:',issues);
  return {counts,issues};
 }
 const rackSlotKeys=new Set(DOC.slots.map(s=>`${s.c},${s.r},${s.ch}`));
